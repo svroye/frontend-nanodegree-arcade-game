@@ -1,4 +1,3 @@
-
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -6,31 +5,25 @@ var Enemy = function() {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
+
     this.sprite = 'images/enemy-bug.png';
     this.setPositionAndSpeed();
-
 };
 
 //paragraph on the page that displays the score
 var scoreTag = document.querySelector('p');
-var score = 0;
 
-//when the user changes difficulty, the score gets reset
-var resetScore = function(){
-    score = 0;
-    scoreTag.innerHTML= "Score: " + score;
-}
 
 Enemy.prototype.setPositionAndSpeed = function(){
     //set random position left of the canvas as a start position
     //for the x coordinate
-    var xStart = -(Math.random()*500)
+    var xStart = -(Math.random()*500);
     //3 possible y values for the enemies
     var yStart = [83*0.5,83*1.5,83*2.5];
     this.x = xStart;
     this.y = yStart[Math.floor(Math.random()*3)];
     this.speed = Math.random()*200+50;
-}
+};
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -58,20 +51,25 @@ Enemy.prototype.render = function() {
 var Player = function(){
     this.sprite = 'images/char-boy.png';
     this.setStartPosition();
+    this.score=0;
+};
+
+Player.prototype.resetScore = function(){
+    this.score = 0;
+    scoreTag.innerHTML= "Score: " + this.score;
 };
 
 //start position of the user;
 Player.prototype.setStartPosition = function(){
     this.x = 101*2;
     this.y = 83*4.5;
-}
+};
 
 Player.prototype.update = function() {
 };
 
 Player.prototype.render = function(){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
 };
 
 
@@ -94,7 +92,7 @@ Player.prototype.handleInput = function(keys){
         }
         break;
         case 'down':
-        if(!(this.y >= 83*4.5)){
+        if(!(this.y >= 83*4.5) ){
             this.y+=83;
         }
         break;
@@ -104,21 +102,22 @@ Player.prototype.handleInput = function(keys){
 Player.prototype.wins = function(){
     if(this.y <83*0.5){
         this.setStartPosition();
-        score+=10;
-        scoreTag.innerHTML= "Score: " + score;
+        this.score+=10;
+        scoreTag.innerHTML= "Score: " + this.score;
     }
-}
+};
 
 Player.prototype.collide = function(){
+    var self = this;
     allEnemies.forEach(function(enemy){
-        if(enemy.y === player.y){
-            if(enemy.x + 70 >= player.x && enemy.x <= player.x + 70){
-                player.setStartPosition();
-                score-=5;
-                scoreTag.innerHTML= "Score: " + score;
+        if(enemy.y === self.y){
+            if(enemy.x + 70 >= self.x && enemy.x <= self.x + 70){
+                self.setStartPosition();
+                self.score-=5;
+                scoreTag.innerHTML= "Score: " + self.score;
             }
         }
-    })
+    });
 };
 
 // Now instantiate your objects.
@@ -127,7 +126,7 @@ Player.prototype.collide = function(){
 
 var allEnemies = [];
 for(var i=0;i<3;i++){
-        allEnemies[i] = new Enemy();
+    allEnemies[i] = new Enemy();
 }
 var player = new Player();
 
@@ -135,9 +134,11 @@ var radioEasy = document.getElementById('radio-easy');
 var radioMedium = document.getElementById('radio-medium');
 var radioHard = document.getElementById('radio-hard');
 
+
+
 //set the easy difficulty with 3 enemies
 radioEasy.addEventListener('click',function(){
-    resetScore();
+    player.resetScore();
     while(allEnemies.length > 0) {
         allEnemies.pop();
     }
@@ -145,14 +146,12 @@ radioEasy.addEventListener('click',function(){
     for(var i=0;i<3;i++){
         allEnemies[i] = new Enemy();
     }
-    buttonEasy.style.backgroundColor='DarkGrey';
-    buttonMedium.style.backgroundColor='LightGrey';
-    buttonHard.style.backgroundColor='LightGrey';
-})
+    this.blur();
+});
 
 //set the medium difficulty with 6 enemies
 radioMedium.addEventListener('click',function(){
-    resetScore();
+    player.resetScore();
     while(allEnemies.length > 0) {
         allEnemies.pop();
     }
@@ -160,14 +159,12 @@ radioMedium.addEventListener('click',function(){
     for(var i=0;i<6;i++){
         allEnemies[i] = new Enemy();
     }
-    buttonEasy.style.backgroundColor='LightGrey';
-    buttonMedium.style.backgroundColor='DarkGrey';
-    buttonHard.style.backgroundColor='LightGrey';
-})
+    this.blur();
+});
 
 //set the hard difficulty with 12 enemies
 radioHard.addEventListener('click',function(){
-     resetScore();
+    player.resetScore();
     while(allEnemies.length > 0) {
         allEnemies.pop();
     }
@@ -175,10 +172,8 @@ radioHard.addEventListener('click',function(){
     for(var i=0;i<12;i++){
         allEnemies[i] = new Enemy();
     }
-    buttonEasy.style.backgroundColor='LightGrey';
-    buttonMedium.style.backgroundColor='LightGrey';
-    buttonHard.style.backgroundColor='DarkGrey';
-})
+    this.blur();
+});
 
 
 
@@ -192,31 +187,32 @@ var radioChar5 = document.getElementById('char-5');
 radioChar1.addEventListener('click',function(){
     player.sprite='images/char-boy.png';
     player = new Player();
+    this.blur();
 });
 
 radioChar2.addEventListener('click',function(){
     player = new Player();
     player.sprite='images/char-cat-girl.png';
+    this.blur();
 });
 
 radioChar3.addEventListener('click',function(){
     player = new Player();
     player.sprite='images/char-horn-girl.png';
+    this.blur();
 });
 
 radioChar4.addEventListener('click',function(){
     player = new Player();
     player.sprite='images/char-pink-girl.png';
+    this.blur();
 });
 
 radioChar5.addEventListener('click',function(){
     player = new Player();
     player.sprite='images/char-princess-girl.png';
+    this.blur();
 });
-
-
-
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -227,7 +223,6 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
