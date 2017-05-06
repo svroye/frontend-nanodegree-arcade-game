@@ -6,8 +6,36 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <script src="js/resources.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/engine.js"></script>
+    <div class="row">
+        <div class="col-30">
+            <p class="score"> Score: 0</p>
+            <form class="difficulty"> <strong>Difficulty:</strong><br>
+              <input id="radio-easy" type="radio" name="gender" value="male" checked> Easy<br>
+              <input id="radio-medium" type="radio" name="gender" value="female"> Medium<br>
+              <input id="radio-hard"type="radio" name="gender" value="other"> Hard
+          </form>
+          <br>
+          <form class="character"> <strong>Character:</strong><br>
+              <input id="char-1" type="radio" name="gender" value="male" checked> <img src="images/char-boy.png"><br>
+              <input id="char-2" type="radio" name="gender" value="female"> <img src="images/char-cat-girl.png"><br>
+              <input id="char-3" type="radio" name="gender" value="female"> <img src="images/char-horn-girl.png"><br>
+              <input id="char-4" type="radio" name="gender" value="female"> <img src="images/char-pink-girl.png"><br>
+              <input id="char-5" type="radio" name="gender" value="female"> <img src="images/char-princess-girl.png"><br>
+          </form>
+
+      </div>
+      <div class="col-70 game" id="gameDiv">
+
+      </div>
+
+  </div>
+
+
+
+  <script src="js/resources.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/engine.js"></script>
 </body>
 </html>
+
+
